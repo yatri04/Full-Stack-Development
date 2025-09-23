@@ -1,0 +1,17 @@
+.container {
+    text-align: center;
+    margin-top: 100px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1,
+h2 {
+    font-weight: 600;
+    color: #2d3436;
+}
+
+.highlight {
+    font-weight: bold;
+    font-size: 1.4em;
+    color: black;
+}

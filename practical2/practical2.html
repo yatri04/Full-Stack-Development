@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beautiful Weather App</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+        
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        input[type="text"] {
+            padding: 12px;
+            width: 60%;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px 0 0 8px;
+            outline: none;
+        }
+        
+        button {
+            padding: 12px;
+            font-size: 16px;
+            background-color: #0984e3;
+            color: #fff;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #0077cc;
+        }
+        
+        .weather-info {
+            margin-top: 25px;
+            text-align: left;
+            padding: 20px;
+            background: #f1f2f6;
+            border-radius: 12px;
+            color: #2d3436;
+            line-height: 1.7;
+        }
+        
+        .weather-info img {
+            width: 60px;
+            vertical-align: middle;
+        }
+        
+        @media screen and (max-width: 500px) {
+            .input-group {
+                flex-direction: column;
+            }
+            input[type="text"],
+            button {
+                width: 100%;
+                border-radius: 8px;
+                margin: 5px 0;
+            }
+            .weather-info {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+        <div class="input-group">
+            <input type="text" id="cityInput" placeholder="Enter city name" />
+            <button id="getWeatherBtn">Get Weather</button>
+        </div>
+        <div id="weatherResult"></div>
+    </div>
+
+    <script>
+        const apiKey = "163608c623bb421c93170925250407"; // Your WeatherAPI.com API key
+
+        document.getElementById("getWeatherBtn").addEventListener("click", () => {
+            const city = document.getElementById("cityInput").value.trim();
+            const result = document.getElementById("weatherResult");
+
+            if (!city) {
+                result.innerHTML = "<p style='color:red;'>Please enter a city name.</p>";
+                return;
+            }
+
+            const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("City not found or API error");
+                    return response.json();
+                })
+                .then(data => {
+                    const {
+                        name,
+                        region,
+                        country
+                    } = data.location;
+                    const {
+                        temp_c,
+                        humidity,
+                        wind_kph,
+                        condition
+                    } = data.current;
+                    const weatherHTML = `
+            <div class="weather-info">
+              <h3>${name}, ${region}, ${country}</h3>
+              <p><strong>Temperature:</strong> ${temp_c}°C</p>
+              <p><strong>Condition:</strong> ${condition.text} <img src="https:${condition.icon}" alt="${condition.text}" /></p>
+              <p><strong>Humidity:</strong> ${humidity}%</p>
+              <p><strong>Wind Speed:</strong> ${wind_kph} km/h</p>
+            </div>
+          `;
+                    result.innerHTML = weatherHTML;
+                })
+                .catch(error => {
+                    result.innerHTML = `<p style='color:red;'>Error: ${error.message}</p>`;
+                });
+        });
+    </script>
+</body>
+
+</html>
