@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kids Calculator</title>
+    <style>
+      :root {
+        --bg: #fffae3;
+        --card: #ffffff;
+        --text: #1b2559;
+        --accent1: #ff6b6b;
+        --accent2: #6c5ce7;
+        --accent3: #00cec9;
+        --accent4: #fdcb6e;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        height: 100vh;
+        background: var(--bg);
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        background: var(--card);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        width: 360px;
+        text-align: center;
+        animation: popIn 0.8s ease;
+      }
+      @keyframes popIn {
+        from {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 2rem;
+        color: var(--text);
+      }
+      p {
+        margin: 0 0 20px;
+        color: #555;
+      }
+      input[type="number"] {
+        width: 100%;
+        padding: 14px;
+        margin: 10px 0;
+        border-radius: 14px;
+        border: 2px solid #eee;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+      .ops {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin: 20px 0;
+      }
+      .op-btn {
+        font-size: 1.6rem;
+        border: none;
+        padding: 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        color: #fff;
+        transition: 0.2s;
+      }
+      .op-btn:hover {
+        transform: scale(1.15) rotate(5deg);
+      }
+      .add {
+        background: var(--accent1);
+      }
+      .sub {
+        background: var(--accent2);
+      }
+      .mul {
+        background: var(--accent3);
+      }
+      .div {
+        background: var(--accent4);
+        color: #333;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        padding: 15px;
+        border-radius: 14px;
+        background: #f1f1ff;
+        min-height: 50px;
+      }
+      #result.animate {
+        animation: bounce 0.6s ease;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>🧮 Fun Calculator</h1>
+      <p>Enter numbers and click an operation!</p>
+
+      <input id="a" name="a" type="number" placeholder="First number 🎈" />
+      <input id="b" name="b" type="number" placeholder="Second number 🎈" />
+
+      <div class="ops">
+        <button class="op-btn add" data-op="add">➕</button>
+        <button class="op-btn sub" data-op="sub">➖</button>
+        <button class="op-btn mul" data-op="mul">✖</button>
+        <button class="op-btn div" data-op="div">➗</button>
+      </div>
+
+      <div id="result">✨ Your answer will appear here ✨</div>
+    </div>
+
+    <script>
+      const resultBox = document.getElementById("result");
+      const inputs = {
+        a: document.getElementById("a"),
+        b: document.getElementById("b"),
+      };
+
+      function showMessage(msg) {
+        resultBox.textContent = msg;
+        resultBox.classList.remove("animate");
+        void resultBox.offsetWidth; // restart animation
+        resultBox.classList.add("animate");
+      }
+
+      function calculate(a, b, op) {
+        a = Number(a);
+        b = Number(b);
+        switch (op) {
+          case "add":
+            return a + b;
+          case "sub":
+            return a - b;
+          case "mul":
+            return a * b;
+          case "div":
+            return b === 0 ? "🚫 Can't divide by zero!" : a / b;
+        }
+      }
+
+      document.querySelectorAll(".op-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const a = inputs.a.value.trim();
+          const b = inputs.b.value.trim();
+          const op = btn.dataset.op;
+
+          if (a === "" || b === "" || isNaN(Number(a)) || isNaN(Number(b))) {
+            showMessage("🚫 Please enter valid numbers!");
+            return;
+          }
+
+          const result = calculate(a, b, op);
+          const opWord = {
+            add: "plus",
+            sub: "minus",
+            mul: "times",
+            div: "divided by",
+          }[op];
+          if (typeof result === "string") {
+            showMessage(result);
+          } else {
+            showMessage(`${a} ${opWord} ${b} = 🎉 ${result}`);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

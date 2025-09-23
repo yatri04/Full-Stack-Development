@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Total Income Result</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>📊 Income Summary</h1>
+
+      <p><strong>Income Source 1:</strong> ₹ <%= income1.toFixed(2) %></p>
+      <p><strong>Income Source 2:</strong> ₹ <%= income2.toFixed(2) %></p>
+      <hr style="margin: 20px 0" />
+      <p style="font-size: 18px; font-weight: bold; color: #2575fc">
+        Total Income: ₹ <%= total.toFixed(2) %>
+      </p>
+
+      <a href="/" style="text-decoration: none">
+        <button style="margin-top: 15px">⬅ Back to Form</button>
+      </a>
+    </div>
+  </body>
+</html>
