@@ -1,0 +1,31 @@
+{
+  "name": "mern-todo-app",
+  "version": "1.0.0",
+  "description": "A creative and responsive To-Do List application built with MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server.js",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "deploy": "npm run build && firebase deploy",
+    "test": "cd client && npm test"
+  },
+  "keywords": ["mern", "todo", "react", "express", "mongodb", "bootstrap"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.0"
+  }
+}
